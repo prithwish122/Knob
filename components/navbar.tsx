@@ -1,49 +1,89 @@
-import { Button } from "@/components/ui/button"
+"use client"
+import { useEffect, useState } from "react"
+import { Button } from "@/components/ui/moving-border"
+import { Shield, BarChart3, FileText } from "lucide-react"
+import Link from "next/link"
 
-export default function Navbar() {
+export default function VeribeeNavbar() {
+  const [scrolled, setScrolled] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 10) {
+        setScrolled(true)
+      } else {
+        setScrolled(false)
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  const navItems = [
+    {
+      name: "Home",
+      link: "#home",
+      icon: <Shield className="h-4 w-4 text-neutral-500 dark:text-white" />,
+    },
+    {
+      name: "Features",
+      link: "#features",
+      icon: <Shield className="h-4 w-4 text-neutral-500 dark:text-white" />,
+    },
+    // {
+    //   name: "Docs",
+    //   link: "#how-it-works",
+    //   icon: <BarChart3 className="h-4 w-4 text-neutral-500 dark:text-white" />,
+    // },
+    {
+      name: "Docs",
+      link: "https://veribee.gitbook.io/veribee",
+      icon: <FileText className="h-4 w-4 text-neutral-500 dark:text-white" />,
+    },
+  ]
+
   return (
-    <header className="w-full border-b" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
-      <nav className="mx-auto flex max-w-[1600px] items-center justify-between px-[50px] py-4">
-        <div className="flex items-center gap-3">
-          <div
-            className="size-6 rounded-md"
-            style={{
-              background: "linear-gradient(135deg, var(--brand-green), var(--brand-green-2))",
-            }}
-            aria-hidden
+    <div className="relative w-full">
+      <div
+        className={`fixed top-6 left-1/2 transform -translate-x-1/2 z-[5001] flex items-center gap-x-48 transition-all duration-300 ${
+          scrolled ? "bg-black/5 shadow-lg rounded-full px-6 py-4" : ""
+        }`}
+      >
+        {/* Logo Section */}
+        <Link href="/" className="flex items-center gap-2">
+          <img
+            src="/images/veribee.png"
+            alt="Veribee Logo"
+            className="h-8 w-8 rounded-full"
           />
-          <span className="text-sm font-semibold tracking-wide">Knob</span>
+          <span className="text-green-200 text-lg font-bold font-sans">Knob</span>
+        </Link>
+
+        {/* Navigation */}
+        <div className="flex items-center space-x-8 bg-black/80 backdrop-blur-md border border-green-500/20 rounded-full px-8 py-3 ml-16">
+          {navItems.map((item, idx) => (
+            <a
+              key={idx}
+              href={item.link}
+              className="text-green-200 hover:text-green-100 transition-colors text-sm font-medium font-sans"
+            >
+              {item.name}
+            </a>
+          ))}
         </div>
-        <div className="hidden items-center gap-6 md:flex">
-          <a className="text-foreground/70 hover:text-foreground" href="#">
-            Features
-          </a>
-          <a className="text-foreground/70 hover:text-foreground" href="#">
-            Components
-          </a>
-          <a className="text-foreground/70 hover:text-foreground" href="#">
-            Pricing
-          </a>
-        </div>
-        <div className="flex items-center gap-2">
+
+        {/* Launch App Button */}
+        <Link href="/dashboard" className="cursor-pointer">
           <Button
-            variant="secondary"
-            className="border bg-transparent"
-            style={{ borderColor: "rgba(255,255,255,0.08)", color: "var(--foreground)" }}
+            hover="pointer"
+            borderRadius="1.75rem"
+            className="bg-green-950/80 backdrop-blur-md text-green-100 border-green-500/30 hover:border-green-400/50 transition-all font-sans cursor-pointer"
           >
-            Sign in
+            Launch App
           </Button>
-          <Button
-            className="hidden sm:inline-flex"
-            style={{
-              color: "#00160a",
-              backgroundImage: "linear-gradient(135deg, var(--brand-green), var(--brand-green-2))",
-            }}
-          >
-            Try now
-          </Button>
-        </div>
-      </nav>
-    </header>
+        </Link>
+      </div>
+    </div>
   )
 }

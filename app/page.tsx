@@ -36,7 +36,7 @@ export default function Page() {
     >
       <Navbar />
 
-      <div className="flex-1 grid grid-cols-1 gap-8 px-[100px] pb-12 pt-6 lg:grid-cols-[1fr_420px]">
+      <div className="flex-1 grid grid-cols-1 gap-8 px-[100px] pb-12 pt-[calc(1.5rem+100px)] lg:grid-cols-[1fr_420px]">
         {/* Left column: Skiper section + Hero */}
         <div className="flex flex-col gap-8">
           {/* Skiper section */}
@@ -90,7 +90,7 @@ export default function Page() {
         </div>
 
         {/* Right column: Interactive device */}
-        <aside className="sticky top-6 h-[min(78vh,760px)]">
+        <aside className="sticky top-[calc(1.5rem+60px)] h-[min(78vh,760px)]">
           <InteractiveDevice />
         </aside>
       </div>
