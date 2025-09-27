@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { BarChart3, ArrowLeftRight, TrendingUp, User, Shield, Wallet } from "lucide-react"
+import { BarChart3, ArrowLeftRight, TrendingUp, User, Shield, Wallet, UserCircle } from "lucide-react"
 
 interface SidebarProps {
   activeSection: string
@@ -15,6 +15,7 @@ const navigationItems = [
   { id: "dex", label: "DEX", icon: TrendingUp, description: "Decentralized Trading" },
   { id: "for-you", label: "For You", icon: User, description: "Personalized" },
   { id: "verify", label: "Verify", icon: Shield, description: "Authentication" },
+  { id: "profile", label: "Profile", icon: UserCircle, description: "Account & History" },
 ]
 
 export function Sidebar({ activeSection, onSectionChange }: SidebarProps) {

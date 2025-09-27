@@ -6,7 +6,19 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
 import { MagicCard } from "@/components/ui/magic-card"
-import { BarChart3, TrendingUp, Zap, Shield, Coins, Activity, ArrowUpRight, DollarSign, Clock } from "lucide-react"
+import {
+  BarChart3,
+  TrendingUp,
+  Zap,
+  Shield,
+  Coins,
+  Activity,
+  ArrowUpRight,
+  DollarSign,
+  Clock,
+  Star,
+  Trophy,
+} from "lucide-react"
 import Image from "next/image"
 import { LidoStakingModal } from "./lido-staking-modal"
 import { UniswapModal } from "./uniswap-modal"
@@ -15,6 +27,8 @@ import { MakerDAOModal } from "./makerdao-modal"
 import { CurveModal } from "./curve-modal"
 import { CompoundModal } from "./compound-modal"
 import { RocketPoolModal } from "./rocketpool-modal"
+import { XPEarnModal } from "./xp-earn-modal"
+import { XPWithdrawModal } from "./xp-withdraw-modal"
 
 const poolsData = [
   {
@@ -107,6 +121,8 @@ export function PoolsContent() {
   const [isCurveModalOpen, setIsCurveModalOpen] = useState(false)
   const [isCompoundModalOpen, setIsCompoundModalOpen] = useState(false)
   const [isRocketPoolModalOpen, setIsRocketPoolModalOpen] = useState(false)
+  const [isXPModalOpen, setIsXPModalOpen] = useState(false)
+  const [isXPWithdrawModalOpen, setIsXPWithdrawModalOpen] = useState(false)
 
   const handleCategoryChange = (categoryId: string) => {
     setIsLoading(true)
@@ -205,7 +221,7 @@ export function PoolsContent() {
             <div key={index} className="animate-slide-up" style={{ animationDelay: `${index * 100}ms` }}>
               <MagicCard
                 gradientColor="#10b981"
-                className="group relative overflow-hidden bg-gradient-to-br from-green-900/20 via-green-800/15 to-green-900/10 border border-green-400/20 hover:border-green-400/40 transition-all duration-500 shadow-2xl shadow-green-500/5 hover:shadow-green-500/20 glow-green-subtle hover:glow-green backdrop-blur-sm"
+                className="group relative overflow-hidden bg-gradient-to-br from-green-900/20 via-green-800/15 to-green-900/10 border border-green-400/20 hover:border-green-400/40 transition-all duration-500 shadow-2xl shadow-green-500/5 hover:shadow-green-500/20 glow-green-subtle hover:backdrop-blur-sm"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 via-transparent to-green-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-green-400/10 to-transparent rounded-full blur-2xl" />
@@ -289,26 +305,58 @@ export function PoolsContent() {
       </div>
 
       <div className="px-8 pb-8">
-        <div className="flex flex-wrap gap-3">
-          {poolCategories.map((category) => (
+        <div className="flex flex-wrap items-center justify-between gap-6">
+          {/* Pool Category Buttons */}
+          <div className="flex flex-wrap gap-3">
+            {poolCategories.map((category) => (
+              <Button
+                key={category.id}
+                variant="ghost"
+                className={cn(
+                  "relative overflow-hidden transition-all duration-300 rounded-xl border font-semibold px-6 py-3",
+                  activeCategory === category.id
+                    ? "bg-gradient-to-r from-green-500/20 to-green-600/10 text-green-300 border-green-400/40 shadow-lg shadow-green-500/20 glow-green-subtle"
+                    : "border-green-500/20 text-gray-300 hover:bg-green-500/10 hover:text-green-300 hover:border-green-400/30 hover:shadow-lg hover:shadow-green-500/10",
+                )}
+                onClick={() => handleCategoryChange(category.id)}
+                disabled={isLoading}
+              >
+                {activeCategory === category.id && (
+                  <div className="absolute inset-0 bg-gradient-to-r from-green-500/10 to-green-600/5 animate-pulse-glow" />
+                )}
+                <span className="relative">{category.label}</span>
+              </Button>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-3">
+            {/* XP Button */}
             <Button
-              key={category.id}
               variant="ghost"
-              className={cn(
-                "relative overflow-hidden transition-all duration-300 rounded-xl border font-semibold px-6 py-3",
-                activeCategory === category.id
-                  ? "bg-gradient-to-r from-green-500/20 to-green-600/10 text-green-300 border-green-400/40 shadow-lg shadow-green-500/20 glow-green-subtle"
-                  : "border-green-500/20 text-gray-300 hover:bg-green-500/10 hover:text-green-300 hover:border-green-400/30 hover:shadow-lg hover:shadow-green-500/10",
-              )}
-              onClick={() => handleCategoryChange(category.id)}
-              disabled={isLoading}
+              onClick={() => setIsXPWithdrawModalOpen(true)}
+              className="relative overflow-hidden transition-all duration-300 rounded-xl border font-semibold px-6 py-3 border-green-500/20 text-gray-300 hover:bg-green-500/10 hover:text-green-300 hover:border-green-400/30 hover:shadow-lg hover:shadow-green-500/10"
             >
-              {activeCategory === category.id && (
-                <div className="absolute inset-0 bg-gradient-to-r from-green-500/10 to-green-600/5 animate-pulse-glow" />
-              )}
-              <span className="relative">{category.label}</span>
+              <span className="relative flex items-center gap-2">
+                <Trophy className="w-4 h-4 text-green-400" />
+                125 XP
+                <Badge className="bg-green-500/30 text-green-300 border-green-400/40 text-xs px-2 py-0.5 ml-1">
+                  Level 3
+                </Badge>
+              </span>
             </Button>
-          ))}
+
+            {/* Earn Button */}
+            <Button
+              variant="ghost"
+              onClick={() => setIsXPModalOpen(true)}
+              className="relative overflow-hidden transition-all duration-300 rounded-xl border font-semibold px-6 py-3 border-green-500/20 text-gray-300 hover:bg-green-500/10 hover:text-green-300 hover:border-green-400/30 hover:shadow-lg hover:shadow-green-500/10"
+            >
+              <span className="relative flex items-center gap-2">
+                <Star className="w-4 h-4 text-green-400" />
+                Earn
+              </span>
+            </Button>
+          </div>
         </div>
       </div>
 
@@ -332,6 +380,8 @@ export function PoolsContent() {
       <CurveModal isOpen={isCurveModalOpen} onClose={() => setIsCurveModalOpen(false)} />
       <CompoundModal isOpen={isCompoundModalOpen} onClose={() => setIsCompoundModalOpen(false)} />
       <RocketPoolModal isOpen={isRocketPoolModalOpen} onClose={() => setIsRocketPoolModalOpen(false)} />
+      <XPEarnModal isOpen={isXPModalOpen} onClose={() => setIsXPModalOpen(false)} />
+      <XPWithdrawModal isOpen={isXPWithdrawModalOpen} onClose={() => setIsXPWithdrawModalOpen(false)} />
     </div>
   )
 }
