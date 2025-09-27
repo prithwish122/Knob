@@ -46,7 +46,10 @@ async function main() {
       }
       outerResult[poolId] = innerResult;
     }
-    return JSON.stringify(outerResult);
+    // console.log(JSON.stringify(outerResult));
+    // console.log(outerResult);
+    // return JSON.stringify(outerResult);
+    return outerResult;
     
 
   } catch (err) {
@@ -55,3 +58,4 @@ async function main() {
   }
 }
 
+main()
