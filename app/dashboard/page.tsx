@@ -4,6 +4,8 @@ import { useState, useEffect } from "react"
 import { Sidebar } from "@/components/sidebar"
 import { ConnectWalletModal } from "@/components/connect-wallet-modal"
 import { PoolsContent } from "@/components/pools-content"
+import { ProfileContent } from "@/components/profile-content"
+import { Toaster } from "@/components/ui/toaster"
 
 export default function Dashboard() {
   const [showWalletModal, setShowWalletModal] = useState(false)
@@ -46,6 +48,8 @@ export default function Dashboard() {
             <p className="text-muted-foreground">Verification functionality coming soon...</p>
           </div>
         )
+      case "profile":
+        return <ProfileContent />
       default:
         return <PoolsContent />
     }
@@ -56,6 +60,7 @@ export default function Dashboard() {
       <Sidebar activeSection={activeSection} onSectionChange={setActiveSection} />
       <main className="flex-1 overflow-auto">{renderContent()}</main>
       <ConnectWalletModal open={showWalletModal} onOpenChange={setShowWalletModal} />
+      <Toaster />
     </div>
   )
 }

@@ -10,11 +10,7 @@ interface ConnectWalletModalProps {
 }
 
 export function ConnectWalletModal({ open, onOpenChange }: ConnectWalletModalProps) {
-  const handleConnectWallet = () => {
-    // Dummy function - non-functional as requested
-    console.log("Connect wallet clicked (dummy function)")
-    onOpenChange(false)
-  }
+  
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -51,16 +47,9 @@ export function ConnectWalletModal({ open, onOpenChange }: ConnectWalletModalPro
               ))}
             </div>
 
-            <Button
-              onClick={handleConnectWallet}
-              className="w-full bg-gradient-to-r from-green-700 to-green-800 hover:from-green-600 hover:to-green-700 text-white font-semibold py-3 rounded-xl transition-all duration-200 border border-green-600/50 hover:border-green-500/60 group relative overflow-hidden"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-green-600/20 to-green-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
-              <span className="relative flex items-center justify-center gap-2">
-                Connect Wallet
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-200" />
-              </span>
-            </Button>
+                <div className="flex justify-center">
+                <appkit-button />
+                </div>
 
             
           </div>
