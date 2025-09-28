@@ -36,25 +36,25 @@ if (!projectId) {
 // })
 
 const customNetwork = defineChain({
-  id: 656476,
+  id: 545,
   caipNetworkId: 'eip155:123456789',
   chainNamespace: 'eip155',
-  name: 'EDU Chain Testnet',
+  name: 'FLOW EVM Testnet',
   nativeCurrency: {
     decimals: 18,
-    name: 'EDU',
-    symbol: 'EDU',
+    name: 'FLOW',
+    symbol: 'FLOW',
   },
   rpcUrls: {
     default: {
-      http: ['https://open-campus-codex-sepolia.drpc.org'],
+      http: ['https://testnet.evm.nodes.onflow.org/'],
       webSocket: [''],
     },
   },
   blockExplorers: {
     default: {
-      name: 'Core Testnet Explorer',
-      url: 'https://opencampus-codex.blockscout.com',
+      name: 'Flow Testnet Explorer',
+      url: 'https://evm-testnet.flowscan.io/',
     },
   },
   contracts: {
@@ -82,7 +82,7 @@ const modal = createAppKit({
   chainImages: {
     123456789: 'https://s2.coinmarketcap.com/static/img/coins/200x200/23254.png',
   },
-  projectId: '147ac26d4875d31fbecca54c782a112d',
+  projectId: '4ee625d1ff5f7d774b502ddc01567972',
 })
 
 export const config = wagmiAdapter.wagmiConfig

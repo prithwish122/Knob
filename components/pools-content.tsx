@@ -29,6 +29,9 @@ import { CompoundModal } from "./compound-modal"
 import { RocketPoolModal } from "./rocketpool-modal"
 import { XPEarnModal } from "./xp-earn-modal"
 import { XPWithdrawModal } from "./xp-withdraw-modal"
+import { useAppKitAccount, useAppKitNetwork } from "@reown/appkit/react"
+import { useWriteContract } from "wagmi"
+import propabi from "../smart-contracts/abi.json"
 
 const poolsData = [
   {
@@ -123,6 +126,11 @@ export function PoolsContent() {
   const [isRocketPoolModalOpen, setIsRocketPoolModalOpen] = useState(false)
   const [isXPModalOpen, setIsXPModalOpen] = useState(false)
   const [isXPWithdrawModalOpen, setIsXPWithdrawModalOpen] = useState(false)
+  
+  const { address ,isConnected } = useAppKitAccount() // AppKit hook to get the address and check if the user is connected
+  const { chainId } = useAppKitNetwork() // to get chainid
+  const { writeContract, isSuccess } = useWriteContract() // to in
+  
 
   const handleCategoryChange = (categoryId: string) => {
     setIsLoading(true)

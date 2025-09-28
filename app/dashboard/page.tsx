@@ -5,6 +5,7 @@ import { Sidebar } from "@/components/sidebar"
 import { ConnectWalletModal } from "@/components/connect-wallet-modal"
 import { PoolsContent } from "@/components/pools-content"
 import { ProfileContent } from "@/components/profile-content"
+import { ForYouContent } from "@/components/for-you-content"
 import { Toaster } from "@/components/ui/toaster"
 
 export default function Dashboard() {
@@ -35,12 +36,7 @@ export default function Dashboard() {
           </div>
         )
       case "for-you":
-        return (
-          <div className="p-8">
-            <h2 className="text-2xl font-bold text-primary mb-4">For You</h2>
-            <p className="text-muted-foreground">Personalized recommendations coming soon...</p>
-          </div>
-        )
+        return <ForYouContent />
       case "verify":
         return (
           <div className="p-8">

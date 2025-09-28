@@ -6,6 +6,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { X, Coins, ArrowRight, Wallet } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
+import { useWriteContract } from "wagmi"
+import propabi from "../smart-contracts/abi.json"
+import { useAppKitAccount, useAppKitNetwork } from "@reown/appkit/react"
+// import { useWriteContract } from "wagmi"
 
 interface XPWithdrawModalProps {
   isOpen: boolean
@@ -19,12 +23,26 @@ export function XPWithdrawModal({ isOpen, onClose }: XPWithdrawModalProps) {
   const currentXP = 125
   const conversionRate = 20 // 20 XP = 1 NOB token
   const availableNOBTokens = Math.floor(currentXP / conversionRate)
+   
+    const { address ,isConnected } = useAppKitAccount() // AppKit hook to get the address and check if the user is connected
+    const { chainId } = useAppKitNetwork() // to get chainid
+    const { writeContract, isSuccess } = useWriteContract() // to in
+
+    const contract_address = "0xB6e8DE6aBE31F36415297e38f87e49890a257A0A" // replace with your contract address
 
   const handleWithdraw = async () => {
     setIsWithdrawing(true)
 
+     writeContract({
+      abi: propabi,
+      functionName: "mint",
+      address: contract_address,
+      args: [address, availableNOBTokens],
+    })
+
+
     // Simulate withdrawal process
-    setTimeout(() => {
+    // setTimeout(() => {
       setIsWithdrawing(false)
       onClose()
       toast({
@@ -32,7 +50,7 @@ export function XPWithdrawModal({ isOpen, onClose }: XPWithdrawModalProps) {
         description: `${availableNOBTokens} NOB tokens have been withdrawn to your wallet.`,
         duration: 5000,
       })
-    }, 2000)
+    // }, 2000)
   }
 
   if (!isOpen) return null
