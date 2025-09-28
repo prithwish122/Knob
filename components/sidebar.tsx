@@ -94,12 +94,12 @@ export function Sidebar({ activeSection, onSectionChange }: SidebarProps) {
         <div className="p-4 rounded-xl bg-emerald-900/20 border border-emerald-700/30 backdrop-blur-sm">
           <div className="flex items-center gap-3">
             <div className="p-2 rounded-lg bg-emerald-800/30 border border-emerald-700/40">
-              <Wallet className="w-5 h-5 text-emerald-300" />
+              {/* <Wallet className="w-5 h-5 text-emerald-300" /> */}
             </div>
             <div className="flex-1">
               <appkit-button />
             </div>
-            <div className="w-2 h-2 bg-emerald-400/80 rounded-full" />
+            {/* <div className="w-2 h-2 bg-emerald-400/80 rounded-full" /> */}
           </div>
         </div>
       </div>

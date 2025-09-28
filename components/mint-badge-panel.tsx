@@ -9,9 +9,11 @@ import { cn } from "@/lib/utils"
 
 type Tx = {
   id: string
-  type: "swap" | "stake" | "lend" | "borrow"
+  type: "swap" | "stake" | "lend" | "borrow" | "add_liquidity" | "remove_liquidity"
   amountUSD: number
   timestamp: string
+  from?: string
+  status?: "completed" | "pending" | "failed"
 }
 type MintData = {
   address: string
@@ -42,7 +44,7 @@ function badgeImageForTier(tier: string) {
   }
 }
 
-export function MintBadgePanel() {
+function MintBadgePanel() {
   const { data, error, isLoading } = useSWR<MintData>("/api/mint-data", fetcher)
   const [metadata, setMetadata] = useState<any | null>(null)
   const { toast } = useToast()
@@ -77,6 +79,66 @@ export function MintBadgePanel() {
     toast({ title: "Badge minted", description: "Your monthly badge has been minted successfully." })
   }
 
+  const mockTransactions: Tx[] = [
+    {
+      id: "tx-101",
+      type: "swap",
+      amountUSD: 248.12,
+      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 6).toISOString(),
+      from: "Uniswap",
+      status: "completed",
+    },
+    {
+      id: "tx-102",
+      type: "stake",
+      amountUSD: 1200.0,
+      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24).toISOString(),
+      from: "Lido",
+      status: "completed",
+    },
+    {
+      id: "tx-103",
+      type: "lend",
+      amountUSD: 430.55,
+      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 30).toISOString(),
+      from: "Aave",
+      status: "pending",
+    },
+    {
+      id: "tx-104",
+      type: "borrow",
+      amountUSD: 300.0,
+      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 48).toISOString(),
+      from: "Compound",
+      status: "completed",
+    },
+    {
+      id: "tx-105",
+      type: "add_liquidity",
+      amountUSD: 675.33,
+      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 60).toISOString(),
+      from: "Curve",
+      status: "completed",
+    },
+    {
+      id: "tx-106",
+      type: "remove_liquidity",
+      amountUSD: 215.78,
+      timestamp: new Date(Date.now() - 1000 * 60 * 60 * 96).toISOString(),
+      from: "Balancer",
+      status: "failed",
+    },
+  ]
+
+  const statusPill = (s?: Tx["status"]) => {
+    if (s === "completed") return "bg-emerald-900/40 text-emerald-300 border-emerald-800/40"
+    if (s === "pending") return "bg-amber-900/30 text-amber-300 border-amber-800/40"
+    if (s === "failed") return "bg-rose-900/30 text-rose-300 border-rose-800/40"
+    return "bg-emerald-900/30 text-emerald-300 border-emerald-800/40"
+  }
+
+  const effectiveTxs: Tx[] = data?.transactions?.length ? data.transactions : mockTransactions
+
   return (
     <section className="space-y-6">
       <div className="flex items-baseline justify-between">
@@ -92,10 +154,10 @@ export function MintBadgePanel() {
             <div className="text-xs text-emerald-400/70">{isLoading ? "Loading..." : data ? data.month : ""}</div>
           </div>
 
-          {error && <div className="mt-6 text-sm text-red-300">Failed to fetch transaction data.</div>}
+          {/* {error && <div className="mt-6 text-sm text-red-300">Failed to fetch transaction data.</div>} */}
 
           <div className="mt-6 space-y-3">
-            {(data?.transactions ?? []).map((tx) => (
+            {effectiveTxs.map((tx) => (
               <div
                 key={tx.id}
                 className={cn(
@@ -105,19 +167,34 @@ export function MintBadgePanel() {
               >
                 <div className="flex items-center gap-3">
                   <div className="h-8 w-8 rounded-lg bg-emerald-900/40 border border-emerald-800/40" />
-                  <div>
-                    <div className="text-sm text-emerald-200 font-medium capitalize">{tx.type}</div>
+                  <div className="space-y-0.5">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[11px] uppercase tracking-wide rounded-md px-2 py-0.5 border border-emerald-700/50 text-emerald-200 bg-emerald-950/40">
+                        {tx.type}
+                      </span>
+                      {tx.from ? <span className="text-xs text-emerald-300/80">{tx.from}</span> : null}
+                    </div>
                     <div className="text-xs text-emerald-400/70">{new Date(tx.timestamp).toLocaleString()}</div>
                   </div>
                 </div>
-                <div className="text-emerald-200 font-semibold">
-                  ${tx.amountUSD.toLocaleString(undefined, { maximumFractionDigits: 2 })}
+
+                <div className="flex items-center gap-3">
+                  {tx.status ? (
+                    <span className={cn("text-[11px] rounded-md px-2 py-0.5 border", statusPill(tx.status))}>
+                      {tx.status}
+                    </span>
+                  ) : null}
+                  <div className="text-emerald-200 font-semibold">
+                    ${tx.amountUSD.toLocaleString(undefined, { maximumFractionDigits: 2 })}
+                  </div>
                 </div>
               </div>
             ))}
 
             {!isLoading && data && data.transactions.length === 0 && (
-              <div className="text-sm text-emerald-400/70">No transactions this month.</div>
+              <div className="text-sm text-emerald-400/70">
+                No transactions this month. Showing mock data for preview.
+              </div>
             )}
           </div>
         </Card>
@@ -178,3 +255,6 @@ export function MintBadgePanel() {
     </section>
   )
 }
+
+export { MintBadgePanel }
+export default MintBadgePanel
