@@ -3,49 +3,46 @@
 import { Button } from "@/components/ui/button"
 import { MagicCard } from "@/components/ui/magic-card"
 import { ExternalLink, ArrowUpRight, ArrowDownLeft, Clock, Globe } from "lucide-react"
-
+import { SynapseStorage } from "../SynapseSetup/Synapse"
 // Mock transaction data
+
+
+
+const storage = new SynapseStorage();
+
+await storage.initialize();
+
+const retrieved = await storage.retrieveData("bafkzcibckubstyilwooeyudqa55rs2rsm7rinx2jfaryya6cu6cibhqyl2vgmfy");
+console.log(retrieved);
+
+const retrieved2 = await storage.retrieveData("bafkzcibcj4bqlejeztaoq643r4pb2tajcdrwhqb5scxkxazjpc6bn66lslgfshq");
+
+const retrieved3 = await storage.retrieveData("bafkzcibckeb6qiyespdraawku7m2th6dlcso443pv2byybhhy6tnf5q5u35hcmi");
+
+
+
 const mockTransactions = [
   {
-    id: "0x1a2b3c...",
-    type: "swap",
-    from: "USDC",
-    to: "WETH",
-    amount: "1,500.00",
-    value: "$1,500.00",
+    // id: "0x1a2b3c...",
+    type: retrieved.txType,
+    from: retrieved.protocol,
+    // to: "WETH",
+    amount: `$ ${retrieved.amount}`,
+    // value: "$1,500.00",
     timestamp: "2 hours ago",
     status: "completed",
   },
   {
-    id: "0x4d5e6f...",
-    type: "add_liquidity",
-    from: "WETH",
-    to: "USDT",
-    amount: "0.5",
-    value: "$1,250.00",
-    timestamp: "1 day ago",
+    // id: "0x1a2b3c...",
+    type: retrieved2.txType,
+    from: retrieved2.protocol,
+    // to: "WETH",
+    amount: `$ ${retrieved2.amount}`,
+    // value: "$1,500.00",
+    timestamp: "2 hours ago",
     status: "completed",
   },
-  {
-    id: "0x7g8h9i...",
-    type: "remove_liquidity",
-    from: "UNI",
-    to: "WETH",
-    amount: "100.00",
-    value: "$850.00",
-    timestamp: "3 days ago",
-    status: "completed",
-  },
-  {
-    id: "0xjk1l2m...",
-    type: "swap",
-    from: "DAI",
-    to: "USDC",
-    amount: "2,000.00",
-    value: "$2,000.00",
-    timestamp: "1 week ago",
-    status: "completed",
-  },
+  
 ]
 
 export function ProfileContent() {
@@ -137,7 +134,7 @@ export function ProfileContent() {
                               : "Remove Liquidity"}
                         </div>
                         <div className="text-sm text-gray-400">
-                          {tx.from} → {tx.to}
+                          {tx.from}  {tx.to}
                         </div>
                       </div>
                     </div>

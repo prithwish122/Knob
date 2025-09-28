@@ -1,9 +1,9 @@
-import * as dotenv from 'dotenv';
+
 import { Synapse, RPC_URLS } from '@filoz/synapse-sdk';
 import { ethers } from 'ethers';
 
 
-dotenv.config({path: '.env'});
+
 
 //Demo JSON Structure
 interface JsonRecord{
@@ -22,7 +22,7 @@ class SynapseStorage{
         console.log('Environment Check: ');
         console.log('Private key loaded');
         console.log('RPC URL Loaded');
-        let privateKey = process.env.CRAZY_KEY;
+        let privateKey = process.env.NEXT_PUBLIC_CRAZY_KEY;
         if (!privateKey){
             console.error('❌ No PRIVATE_KEY found in environment.');
             console.log('📋 Make sure your .env file contains:');
