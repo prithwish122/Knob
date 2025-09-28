@@ -38,7 +38,7 @@ export default function VeribeeNavbar() {
     // },
     {
       name: "Docs",
-      link: "https://veribee.gitbook.io/veribee",
+      link: "",
       icon: <FileText className="h-4 w-4 text-neutral-500 dark:text-white" />,
     },
   ]
@@ -51,9 +51,9 @@ export default function VeribeeNavbar() {
         }`}
       >
         {/* Logo Section */}
-        <Link href="/" className="flex items-center gap-2">
+        <Link href="/" className="flex items-center gap-2 size-auto">
           <img
-            src="/images/veribee.png"
+            src="/icons/logo.png"
             alt="Veribee Logo"
             className="h-8 w-8 rounded-full"
           />

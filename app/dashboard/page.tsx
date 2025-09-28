@@ -7,6 +7,8 @@ import { PoolsContent } from "@/components/pools-content"
 import { ProfileContent } from "@/components/profile-content"
 import { ForYouContent } from "@/components/for-you-content"
 import { Toaster } from "@/components/ui/toaster"
+import { LeaderboardPanel } from "@/components/leaderboard-panel"
+import { MintBadgePanel } from "@/components/mint-badge-panel"
 
 export default function Dashboard() {
   const [showWalletModal, setShowWalletModal] = useState(false)
@@ -37,6 +39,8 @@ export default function Dashboard() {
         )
       case "for-you":
         return <ForYouContent />
+        case "leaderboard":
+        return <LeaderboardPanel />
       case "verify":
         return (
           <div className="p-8">
@@ -46,6 +50,8 @@ export default function Dashboard() {
         )
       case "profile":
         return <ProfileContent />
+        case "mint-badge":
+            return <MintBadgePanel />
       default:
         return <PoolsContent />
     }

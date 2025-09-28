@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { BarChart3, ArrowLeftRight, TrendingUp, User, Shield, Wallet, UserCircle } from "lucide-react"
+import { BarChart3, ArrowLeftRight, TrendingUp, User, Shield, Wallet, UserCircle, Trophy, Award } from "lucide-react"
 
 interface SidebarProps {
   activeSection: string
@@ -15,6 +15,8 @@ const navigationItems = [
   { id: "dex", label: "DEX", icon: TrendingUp, description: "Decentralized Trading" },
   { id: "for-you", label: "For You", icon: User, description: "Personalized" },
   { id: "verify", label: "Verify", icon: Shield, description: "Authentication" },
+  { id: "mint-badge", label: "Mint Badge", icon: Award, description: "Create Monthly Badge" },
+  { id: "leaderboard", label: "Leaderboard", icon: Trophy, description: "Monthly XP Ranks" },
   { id: "profile", label: "Profile", icon: UserCircle, description: "Account & History" },
 ]
 
@@ -95,8 +97,7 @@ export function Sidebar({ activeSection, onSectionChange }: SidebarProps) {
               <Wallet className="w-5 h-5 text-emerald-300" />
             </div>
             <div className="flex-1">
-              <div className="text-sm font-semibold text-emerald-200">Wallet Status</div>
-              <div className="text-xs text-emerald-400/60">Ready to connect</div>
+              <appkit-button />
             </div>
             <div className="w-2 h-2 bg-emerald-400/80 rounded-full" />
           </div>
